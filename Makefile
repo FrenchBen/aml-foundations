@@ -1,14 +1,16 @@
 
 default: help
 
+build:  ## Build the GitPod.io docker image
+	docker buildx build --tag frenchben/gitpod-notebook -f .gitpod/Dockerfile .gitpod
+
 datascience:  ## Run the datascience notebook with lab enabled
-	docker run --rm -it -p 8888:8888 -v "$(shell PWD)":/data -e JUPYTER_ENABLE_LAB=yes jupyter/datascience-notebook
+	docker run --rm -it -p 8888:8888 -v "$(shell PWD)":/home/jovyan/work -e JUPYTER_ENABLE_LAB=yes jupyter/datascience-notebook
 
 notebook:  ## Run the scipy notebook 
-	docker run --rm -it -p 8888:8888 -v "$(shell PWD)":/data jupyter/scipy-notebook
+	docker run --rm -it -p 8888:8888 -v "$(shell PWD)":/home/jovyan/work jupyter/scipy-notebook
 
-jupyter:  ## Install jupyter locally
-  pip3 install jupyter
+jupyter:  ## Run jupyter locally
   jupyter notebook --ip=0.0.0.0
 
 help:
